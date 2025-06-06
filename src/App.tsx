@@ -43,10 +43,7 @@ function App() {
             setEarthquakes(parsedData);
             setLoading(false);
           },
-          error: (err) => {
-            setError('Failed to parse data');
-            setLoading(false);
-          },
+
         });
       })
       .catch(() => {

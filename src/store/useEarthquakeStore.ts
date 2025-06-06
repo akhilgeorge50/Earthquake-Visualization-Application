@@ -1,7 +1,8 @@
 import { create } from 'zustand';
 import type { Earthquake } from '../types';
 
-interface EarthquakeState {
+// Define the state structure
+interface EarthquakeState { 
   earthquakes: Earthquake[];
   filteredEarthquakes: Earthquake[];
   selectedEarthquake: string | null;
@@ -26,6 +27,8 @@ interface EarthquakeState {
   uniqueTypes: string[];
   placeCounts: { bin: string; count: number }[];
   binnedCounts: { bin: string; count: number }[];
+
+  // Actions to update the state
   setEarthquakes: (earthquakes: Earthquake[]) => void;
   setSelectedEarthquake: (id: string | null) => void;
   setHoveredEarthquake: (id: string | null) => void;
@@ -44,12 +47,17 @@ interface EarthquakeState {
   setFilterType: (type: string) => void;
 }
 
+// Helper function to extract the place from a full place string
 function extractPlace(fullPlace: string): string {
   const match = fullPlace.match(/,\s*([^,]+)$/);
   return match ? match[1].trim() : fullPlace;
 }
 
+
+// Create the Zustand store
 export const useEarthquakeStore = create<EarthquakeState>((set) => ({
+
+  // Initial state
   earthquakes: [],
   filteredEarthquakes: [],
   selectedEarthquake: null,
@@ -74,6 +82,8 @@ export const useEarthquakeStore = create<EarthquakeState>((set) => ({
   uniqueTypes: [],
   placeCounts: [],
   binnedCounts: [],
+
+  // Actions to update the state
   setEarthquakes: (earthquakes) => set((state) => {
     const uniqueYears = [...new Set(earthquakes.map((eq) => eq.date.split('-')[2]))].sort();
     const uniqueMonths = [...new Set(earthquakes.map((eq) => eq.date.split('-')[1]))].sort();
@@ -81,6 +91,7 @@ export const useEarthquakeStore = create<EarthquakeState>((set) => ({
     const uniquePlaces = [...new Set(earthquakes.map((eq) => extractPlace(eq.place)))].sort();
     const uniqueTypes = [...new Set(earthquakes.map((eq) => eq.type))].sort();
 
+    // Initialize filteredEarthquakes with the full list
     const filteredEarthquakes = earthquakes.filter((eq) => {
       const [day, month, year] = eq.date.split('-');
       const place = extractPlace(eq.place);
@@ -100,6 +111,7 @@ export const useEarthquakeStore = create<EarthquakeState>((set) => ({
       count: filteredEarthquakes.filter((eq) => extractPlace(eq.place) === place).length,
     }));
 
+    // Function to bin data for bar charts
     const binData = (data: number[], bins: number = 10) => {
       if (data.length === 0) return [];
       const min = Math.min(...data);
@@ -112,6 +124,7 @@ export const useEarthquakeStore = create<EarthquakeState>((set) => ({
       return binned;
     };
 
+    // Create binned counts for the bar chart
     const binnedCounts = state.barXAxis !== 'place'
       ? binData(filteredEarthquakes.map((eq) => eq[state.barXAxis] as number))
       : [];
