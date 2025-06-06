@@ -118,11 +118,12 @@ function Layout() {
 
       {/* Chart and Table Panels */}
       <div className="flex flex-col lg:flex-row flex-1 gap-6 overflow-hidden">
-        <div className="w-full lg:w-1/2 h-1/2 lg:h-full bg-white rounded-lg shadow-blue-gray-200 p-4">
-          <ChartPanel />
-        </div>
+
         <div className="w-full lg:w-1/2 h-1/2 lg:h-full bg-white rounded-lg shadow-blue-gray-200 p-4 overflow-hidden">
           <DataTable />
+        </div>
+                <div className="w-full lg:w-1/2 h-1/2 lg:h-full bg-white rounded-lg shadow-blue-gray-200 p-4">
+          <ChartPanel />
         </div>
       </div>
 
