@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { ScatterChart, Scatter, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line, BarChart, Bar } from 'recharts';
 import { useEarthquakeStore } from '../store/useEarthquakeStore';
-import type  { Earthquake } from '../types';
+import type { Earthquake } from '../types';
 
 function ChartPanel() {
   const { 
@@ -106,7 +106,6 @@ function ChartPanel() {
       const data = payload[0].payload;
       return (
         <div className="bg-white border border-blue-gray-400 p-2 rounded shadow-blue-gray-200">
-          <p className="text-sm"><strong>ID:</strong> {data.id}</p>
           <p className="text-sm"><strong>{selectedChart === 'scatter' ? scatterXAxis : lineXAxis === 'time' ? 'Time' : lineXAxis}:</strong> 
             {lineXAxis === 'time' && selectedChart === 'line' ? new Date(data[lineXAxis]).toLocaleString('en-GB') : data[selectedChart === 'scatter' ? scatterXAxis : lineXAxis]}
           </p>
@@ -119,7 +118,6 @@ function ChartPanel() {
       const data = tooltipData.payload;
       return (
         <div className="bg-white border border-blue-gray-400 p-2 rounded shadow-blue-gray-200">
-          <p className="text-sm"><strong>ID:</strong> {data.id}</p>
           <p className="text-sm"><strong>{selectedChart === 'scatter' ? scatterXAxis : lineXAxis === 'time' ? 'Time' : lineXAxis}:</strong> 
             {lineXAxis === 'time' && selectedChart === 'line' ? new Date(data[lineXAxis]).toLocaleString('en-GB') : data[selectedChart === 'scatter' ? scatterXAxis : lineXAxis]}
           </p>
