@@ -4,9 +4,9 @@ import { useEarthquakeStore } from '../store/useEarthquakeStore';
 
 function Layout() {
   const { 
-    uniqueYears, uniqueMonths, uniqueDays, uniquePlaces,
-    filterYear, filterMonth, filterDay, filterPlace, filterMagnitude, filterDepth,
-    setFilterYear, setFilterMonth, setFilterDay, setFilterPlace, setFilterMagnitude, setFilterDepth 
+    uniqueYears, uniqueMonths, uniqueDays, uniquePlaces, uniqueTypes,
+    filterYear, filterMonth, filterDay, filterPlace, filterMagnitude, filterDepth, filterType,
+    setFilterYear, setFilterMonth, setFilterDay, setFilterPlace, setFilterMagnitude, setFilterDepth, setFilterType 
   } = useEarthquakeStore();
 
   return (
@@ -71,6 +71,21 @@ function Layout() {
             {uniquePlaces.map((place) => (
               <option key={place} value={place}>
                 {place}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="flex flex-col">
+          <label className="text-sm font-medium text-gray-700 mb-1">Filter by Type</label>
+          <select
+            value={filterType}
+            onChange={(e) => setFilterType(e.target.value)}
+            className="border border-blue-gray-400 rounded-md p-2 text-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500 shadow-sm hover:bg-blue-gray-50"
+          >
+            <option value="">All Types</option>
+            {uniqueTypes.map((type) => (
+              <option key={type} value={type}>
+                {type}
               </option>
             ))}
           </select>
