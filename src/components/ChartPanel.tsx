@@ -3,6 +3,8 @@ import { ScatterChart, Scatter, XAxis, YAxis, CartesianGrid, Tooltip, Responsive
 import { useEarthquakeStore } from '../store/useEarthquakeStore';
 import type { Earthquake } from '../types';
 
+
+// ChartPanel component to display earthquake data in various chart formats
 function ChartPanel() {
   const { 
     filteredEarthquakes, 
@@ -56,6 +58,7 @@ function ChartPanel() {
     }
   }, [selectedEarthquake, hoveredEarthquake, filteredEarthquakes, selectedChart, scatterXAxis, scatterYAxis, lineXAxis, lineYAxis]);
 
+  // Handle scatter point click and hover events
   const handleScatterPointClick = (data: any) => {
     setSelectedEarthquake(data.id);
     const table = document.getElementById(`row-${data.id}`);
@@ -64,11 +67,14 @@ function ChartPanel() {
     }
   };
 
+
+  // Handle hover events for scatter points
   const handleScatterPointHover = (data: any) => {
     console.log('Scatter Hover:', data ? data.id : null);
     setHoveredEarthquake(data ? data.id : null);
   };
 
+  // Handle bar click to select earthquake based on bin  
   const handleBarClick = (data: any) => {
     const quake = filteredEarthquakes.find((q) => {
       if (barXAxis === 'place') {
@@ -90,6 +96,7 @@ function ChartPanel() {
     }
   };
 
+  // Extract place name from full place string
   function extractPlace(fullPlace: string): string {
     const match = fullPlace.match(/,\s*([^,]+)$/);
     return match ? match[1].trim() : fullPlace;
@@ -274,7 +281,7 @@ function ChartPanel() {
               <div className="h-full">
                 <h3 className="text-lg font-semibold mb-2 text-gray-700">Scatter Plot</h3>
                 <ResponsiveContainer width="100%" height="100%">
-                  <ScatterChart isAnimationActive={false} key={`${selectedEarthquake}-${hoveredEarthquake}`}>
+                  <ScatterChart  key={`${selectedEarthquake}-${hoveredEarthquake}`}>
                     <CartesianGrid stroke="#64748B" strokeDasharray="3 3" />
                     <XAxis dataKey={scatterXAxis} name={scatterXAxis} stroke="#64748B" />
                     <YAxis dataKey={scatterYAxis} name={scatterYAxis} stroke="#64748B" />
@@ -292,7 +299,7 @@ function ChartPanel() {
               <div className="h-full">
                 <h3 className="text-lg font-semibold mb-2 text-gray-700">Line Chart</h3>
                 <ResponsiveContainer width="100%" height="100%">
-                  <LineChart data={sortedEarthquakes} isAnimationActive={false}>
+                  <LineChart data={sortedEarthquakes} >
                     <CartesianGrid stroke="#64748B" strokeDasharray="3 3" />
                     <XAxis
                       dataKey={lineXAxis}

@@ -2,22 +2,27 @@ import { useState } from 'react';
 import { useEarthquakeStore } from '../store/useEarthquakeStore';
 import type { Earthquake } from '../types';
 
+//SortColumn and SortDirection types for orting functionality
 type SortColumn = keyof Pick<Earthquake, 'date' | 'timeFormatted' | 'latitude' | 'longitude' | 'depth' | 'mag' | 'place' | 'type'>;
 type SortDirection = 'ASC' | 'DESC';
 
+// DataTable component to display earthquake data in a sortable table format
 function DataTable() {
   const { filteredEarthquakes, selectedEarthquake, hoveredEarthquake, setSelectedEarthquake, setHoveredEarthquake } = useEarthquakeStore();
   const [sortColumn, setSortColumn] = useState<SortColumn | null>(null);
   const [sortDirection, setSortDirection] = useState<SortDirection>('ASC');
 
+  // Handle row click to select an earthquake
   const handleRowClick = (id: string) => {
     setSelectedEarthquake(id);
   };
 
+  // Handle row hover to highlight the hovered earthquake
   const handleRowHover = (id: string | null) => {
     setHoveredEarthquake(id);
   };
 
+  // Handle sorting by changing the sort column and direction
   const handleSort = (column: SortColumn) => {
     if (sortColumn === column) {
       setSortDirection(sortDirection === 'ASC' ? 'DESC' : 'ASC');
@@ -27,27 +32,28 @@ function DataTable() {
     }
   };
 
+  // Sort the filtered earthquakes based on the selected column and direction
   const sortedEarthquakes = [...filteredEarthquakes].sort((a, b) => {
     if (!sortColumn) return 0;
 
     const valueA = a[sortColumn];
     const valueB = b[sortColumn];
 
-    // Handle numeric columns
+  
     if (['latitude', 'longitude', 'depth', 'mag'].includes(sortColumn)) {
       const numA = Number(valueA);
       const numB = Number(valueB);
       return sortDirection === 'ASC' ? numA - numB : numB - numA;
     }
 
-    // Handle date/time columns
+ 
     if (['date', 'timeFormatted'].includes(sortColumn)) {
       const dateA = sortColumn === 'date' ? new Date(a.time) : new Date(`${a.date} ${valueA}`);
       const dateB = sortColumn === 'date' ? new Date(b.time) : new Date(`${b.date} ${valueB}`);
       return sortDirection === 'ASC' ? dateA.getTime() - dateB.getTime() : dateB.getTime() - dateA.getTime();
     }
 
-    // Handle string columns (case-insensitive)
+ 
     const strA = String(valueA).toLowerCase();
     const strB = String(valueB).toLowerCase();
     return sortDirection === 'ASC' ? strA.localeCompare(strB) : strB.localeCompare(strA);

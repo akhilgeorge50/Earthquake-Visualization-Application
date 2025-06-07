@@ -2,6 +2,8 @@ import ChartPanel from './ChartPanel';
 import DataTable from './DataTable';
 import { useEarthquakeStore } from '../store/useEarthquakeStore';
 
+
+// Layout component for the Earthquake Visualization Application
 function Layout() {
   const { 
     uniqueYears, uniqueMonths, uniqueDays, uniquePlaces, uniqueTypes,
@@ -16,6 +18,7 @@ function Layout() {
       {/* Filter Controls */}
       <div className="flex flex-col sm:flex-row flex-wrap gap-4 bg-blue-gray-100 p-4 rounded-lg shadow-blue-gray-200">
         <div className="flex flex-col">
+          {/* Year, Month, Day, Place, Type, Magnitude, Depth Filters */}
           <label className="text-sm font-medium text-gray-700 mb-1">Filter by Year</label>
           <select
             value={filterYear}
@@ -122,7 +125,7 @@ function Layout() {
         <div className="w-full lg:w-1/2 h-1/2 lg:h-full bg-white rounded-lg shadow-blue-gray-200 p-4 overflow-hidden">
           <DataTable />
         </div>
-                <div className="w-full lg:w-1/2 h-1/2 lg:h-full bg-white rounded-lg shadow-blue-gray-200 p-4">
+        <div className="w-full lg:w-1/2 h-1/2 lg:h-full bg-white rounded-lg shadow-blue-gray-200 p-4">
           <ChartPanel />
         </div>
       </div>

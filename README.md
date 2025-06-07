@@ -88,11 +88,6 @@ npm run dev;
 - `src/index.css`: Tailwind CSS directives.
 - `tailwind.config.js`: Custom Tailwind colors.
 
-## Tailwind CSS Setup
-- Configured with `tailwind.config.js`, `postcss.config.js`.
-- `src/index.css` includes Tailwind directives (`@tailwind base`, `@tailwind components`, `@tailwind utilities`).
-- Custom colors in `tailwind.config.js` for blue-grey and teal shades.
-- For issues with `npx tailwindcss init -p`, install `tailwindcss`, `postcss`, `autoprefixer` (`npm install --save-dev tailwindcss@3.4.1 postcss autoprefixer`) and clear cache (`npm cache clean --force`).
 
 ## Notes
 - Fetches data from `https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.csv`.
