@@ -1,3 +1,4 @@
+// This file defines the types used in the application.
 export interface Earthquake {
   id: string;
   time: string; 

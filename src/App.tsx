@@ -9,16 +9,19 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  // Fetch earthquake data from the USGS CSV feed
   useEffect(() => {
     fetch('https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.csv')
       .then((response) => response.text())
       .then((data) => {
+        // Parse the CSV data using PapaParse
         Papa.parse(data, {
           header: true,
           skipEmptyLines: true,
           complete: (result) => {
             const parsedData: Earthquake[] = result.data.map((row: any) => {
               const date = new Date(row.time);
+              // Convert the date to a more readable format
               return {
                 id: row.id,
                 time: row.time,
@@ -40,20 +43,25 @@ function App() {
                 type: row.type,
               };
             });
+            // Set the parsed data to the earthquake store
             setEarthquakes(parsedData);
             setLoading(false);
           },
 
         });
       })
+      // Handle errors during fetch or parsing
       .catch(() => {
         setError('Failed to fetch data');
         setLoading(false);
       });
   }, [setEarthquakes]);
 
-  if (loading) return <div className="flex justify-center items-center h-screen">Loading...</div>;
+// Show loading state or error message
+
   if (error) return <div className="flex justify-center items-center h-screen text-red-500">{error}</div>;
+  if (loading) return <div className="flex justify-center items-center h-screen">Loading...</div>;
+
 
   return <Layout />;
 }
